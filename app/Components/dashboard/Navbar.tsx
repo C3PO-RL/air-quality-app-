@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import React from 'react'
-import { github } from '../utils/icons'
+import { github } from '../../utils/icons'
 import { ThemeDropdown } from './ThemeDropdown/ThemeDropdown'
 import SearchDialog from './SearchDialog/SearchDialog'
 

@@ -68,10 +68,6 @@ export const airQulaityIndexText = [
   },
 ]
 
-const deg2rad = (deg: number) => {
-  return deg * (Math.PI / 180)
-}
-
 export const getDistanceFromLatLonInKm = (
   lat1: number,
   lon1: number,

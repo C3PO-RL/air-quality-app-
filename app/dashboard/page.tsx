@@ -1,32 +1,27 @@
 'use client'
-import Image from 'next/image'
-import Navbar from '../Components/Navbar'
-// import Mapbox from './Components/Mapbox/Mapbox'
+import Navbar from '../Components/dashboard/Navbar'
 import defaultPlaces from '../utils/defaultPlaces'
 import { useGlobalContextUpdate } from '@/app/context/GlobalContext'
-import AirPollution from '../Components/AirPollution/AirPollution'
-import DailyForecast from '../Components/DailyForecast/DailyForecast'
-import FiveDayForecast from '../Components/FiveDayForecast/FiveDayForecast'
-import FeelsLike from '../Components/FeelsLike/FeelsLike'
-import Humidity from '../Components/Humidity/Humidity'
-import Population from '../Components/Population/Population'
-import Pressure from '../Components/Pressure/Pressure'
-import Wind from '../Components/Wind/Wind'
-import Visibility from '../Components/Visibility/Visibility'
-import UvIndex from '../Components/UvIndex/UvIndex'
-import Temperature from '../Components/Temperature/Temperature'
-import Sunset from '../Components/Sunset/Sunset'
+import AirPollution from '../Components/dashboard/AirPollution/AirPollution'
+import DailyForecast from '../Components/dashboard/DailyForecast/DailyForecast'
+import FiveDayForecast from '../Components/dashboard/FiveDayForecast/FiveDayForecast'
+import FeelsLike from '../Components/dashboard/FeelsLike/FeelsLike'
+import Humidity from '../Components/dashboard/Humidity/Humidity'
+import Population from '../Components/dashboard/Population/Population'
+import Pressure from '../Components/dashboard/Pressure/Pressure'
+import Wind from '../Components/dashboard/Wind/Wind'
+import Visibility from '../Components/dashboard/Visibility/Visibility'
+import UvIndex from '../Components/dashboard/UvIndex/UvIndex'
+import Temperature from '../Components/dashboard/Temperature/Temperature'
+import Sunset from '../Components/dashboard/Sunset/Sunset'
 import dynamic from 'next/dynamic'
-const Mapbox = dynamic(() => import('../Components/Mapbox/Mapbox'), {
+const Mapbox = dynamic(() => import('../Components/dashboard/Mapbox/Mapbox'), {
   ssr: false,
 })
 
 const Home = () => {
   const { getDataFromCurrentLocation } = useGlobalContextUpdate()
 
-  // const getClickedCityCords = (lat: number, lon: number) => {
-  //   setActiveCoords([lat, lon])
-  // }
   return (
     <main className='m-auto mx-[1rem] lg:mx-[2rem] xl:mx-[6rem] 2xl:mx-[16rem]'>
       <Navbar />
