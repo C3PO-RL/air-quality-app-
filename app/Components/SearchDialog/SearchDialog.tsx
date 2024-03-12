@@ -3,21 +3,19 @@ import {
   useGlobalContext,
   useGlobalContextUpdate,
 } from '@/app/context/GlobalContext'
-import { commandIcon } from '@/app/utils/icons'
+import { commandIcon, search } from '@/app/utils/icons'
 import { Button } from '@/components/ui/button'
-import { Command, CommandInput } from '@/components/ui/command'
+import { Command } from '@/components/ui/command'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import { useState } from 'react'
+import { cn } from '@/lib/utils'
+import React from 'react'
 
 function SearchDialog() {
   const { geoCodedList, inputValue, handleInput } = useGlobalContext()
-  const { setActiveCityCoords } = useGlobalContextUpdate()
+  const { getDataFromCurrentLocation } = useGlobalContextUpdate()
 
-  const [hoveredIndex, setHoveredIndex] = useState<number>(0)
+  const [hoveredIndex, setHoveredIndex] = React.useState<number>(0)
 
-  const getClickedCoords = (lat: number, lon: number) => {
-    setActiveCityCoords([lat, lon])
-  }
   return (
     <div className='search-btn'>
       <Dialog>
@@ -36,30 +34,34 @@ function SearchDialog() {
 
         <DialogContent className='p-0'>
           <Command className=' rounded-lg border shadow-md'>
-            <CommandInput
-              value={inputValue}
-              onChangeCapture={handleInput}
-              placeholder='Type a command or search...'
-            />
+            <div className='flex items-center border-b px-3'>
+              {search}
+              <input
+                className={cn(
+                  'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50'
+                )}
+                value={inputValue}
+                onChange={handleInput}
+                placeholder='Type a command or search...'
+              />
+            </div>
             <ul className='px-3 pb-2'>
-              <p className='p-2 text-sm text-muted-foreground'>Suggestions</p>
-
-              {geoCodedList?.length === 0 ||
-                (!geoCodedList && <p>No Results</p>)}
+              {geoCodedList.length === 0 ? (
+                <p>No Results</p>
+              ) : (
+                <p className='p-2 text-sm text-muted-foreground'>Suggestions</p>
+              )}
 
               {geoCodedList &&
                 geoCodedList.map(
                   (
                     item: {
                       name: string
-                      country: string
-                      state: string
-                      lat: number
-                      lon: number
+                      geo: [number, number]
                     },
                     index: number
                   ) => {
-                    const { country, state, name } = item
+                    const { name } = item
                     return (
                       <li
                         key={index}
@@ -68,12 +70,10 @@ function SearchDialog() {
                         ${hoveredIndex === index ? 'bg-accent' : ''}
                       `}
                         onClick={() => {
-                          getClickedCoords(item.lat, item.lon)
+                          getDataFromCurrentLocation(item.geo[0], item.geo[1])
                         }}
                       >
-                        <p className=' text'>
-                          {name}, {state && state + ','} {country}
-                        </p>
+                        <p className=' text'>{name}</p>
                       </li>
                     )
                   }

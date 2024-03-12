@@ -39,3 +39,4 @@ export const eye = <Eye size={15} />
 export const people = <UsersRound size={15} />
 export const calender = <CalendarDays size={15} />
 export const sun = <SunDim size={15} />
+export const search = <Search className='mr-2 h-4 w-4 shrink-0 opacity-50' />

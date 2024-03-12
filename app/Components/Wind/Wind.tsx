@@ -16,10 +16,7 @@ function Wind() {
   }
 
   return (
-    <div
-      className='dark:bg-dark-grey flex h-[12rem] flex-col gap-3 rounded-lg border 
-    px-4 pb-5 pt-6 shadow-sm dark:shadow-none'
-    >
+    <div className='dark:bg-dark-grey flex h-[12rem] flex-col gap-3 rounded-lg border px-4 pb-5 pt-6 shadow-sm dark:shadow-none'>
       <h2 className='flex items-center gap-2 font-medium'>{wind} Wind</h2>
 
       <div className='compass relative flex items-center justify-center'>
@@ -29,11 +26,13 @@ function Wind() {
             alt='compass'
             width={110}
             height={110}
+            className='h-auto w-auto'
+            priority
           />
           <Image
             src='/compass_arrow.svg'
             alt='compass'
-            className='absolute left-[50%] top-0 transition-all duration-500 ease-in-out dark:invert'
+            className='absolute left-[50%] top-0 h-auto w-auto transition-all duration-500 ease-in-out dark:invert'
             style={{
               transform: `rotate(${windDir}deg) translateX(-50%)`,
               height: '100%',

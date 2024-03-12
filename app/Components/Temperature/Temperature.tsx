@@ -13,13 +13,13 @@ import { kelvinToCelsius } from '@/app/utils/misc'
 import moment from 'moment'
 
 function Temperature() {
-  const { forecast } = useGlobalContext()
+  const { forecast, stations } = useGlobalContext()
 
   // State
   const [localTime, setLocalTime] = useState<string>('')
   const [currentDay, setCurrentDay] = useState<string>('')
 
-  const { main, timezone, name, weather } = forecast
+  const { main, timezone, name, weather, coord } = forecast
 
   const temp = kelvinToCelsius(main?.temp)
   const minTemp = kelvinToCelsius(main?.temp_min)
@@ -60,10 +60,11 @@ function Temperature() {
     return () => clearInterval(interval)
   }, [timezone])
 
-  if (!forecast || !weather) {
+  if (!forecast || !weather || !stations) {
     return <div>Loading...</div>
   }
   const { main: weatherMain, description } = weather[0]
+
   return (
     <div
       className='dark:bg-dark-grey flex flex-col justify-between rounded-lg border px-4 
@@ -74,11 +75,29 @@ function Temperature() {
         <span className='font-medium'>{localTime}</span>
       </p>
       <p className='flex gap-1 pt-2 font-bold'>
-        <span>{name}</span>
+        <span>Location: {name}</span>
         <span>{navigation}</span>
       </p>
-      <p className='self-center py-10 text-9xl font-bold'>{temp}°</p>
-
+      <p className='flex gap-1 pt-2 font-bold'>
+        <span>
+          lat:{coord.lat} lon:{coord.lon}
+        </span>
+      </p>
+      <p className='flex gap-1 pt-2 font-bold'>
+        <span>Station: {stations[0]?.station.name}</span>
+        <span>{navigation}</span>
+      </p>
+      <p className='flex gap-1 pt-2 font-bold'>
+        <span>
+          lat:{stations[0]?.lat} lon:{stations[0]?.lon}
+        </span>
+      </p>
+      <p className='flex gap-1 pt-2 font-bold'>
+        <span>
+          Distance to station:{' '}
+          {Math.round(stations[0]?.distanceToTarget / 1000)} km
+        </span>
+      </p>
       <div>
         <div>
           <span>{getIcon()}</span>
@@ -87,6 +106,7 @@ function Temperature() {
         <p className='flex items-center gap-2'>
           <span>Low: {minTemp}°</span>
           <span>High: {maxTemp}°</span>
+          <span>Current: {temp}°</span>
         </p>
       </div>
     </div>
