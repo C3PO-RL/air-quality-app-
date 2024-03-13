@@ -18,7 +18,7 @@ const Navbar: FC = () => {
           <Button
             className='source-code flex items-center gap-2'
             onClick={() =>
-              router.push('https://github.com/C3PO-RL?tab=repositories')
+              router.push('https://github.com/C3PO-RL/air-quality-app-')
             }
           >
             {github} Source Code
