@@ -4,9 +4,10 @@ import { thermo } from '@/app/utils/icons'
 import { airQulaityIndexText } from '@/app/utils/misc'
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
-import React from 'react'
+import moment from 'moment'
+import React, { FC } from 'react'
 
-function AirPollution() {
+const AirPollution: FC = () => {
   const { airQuality } = useGlobalContext()
 
   // check if airQuality is available, check if necessary properties are available
@@ -27,13 +28,16 @@ function AirPollution() {
 
   return (
     <div
-      className='air-pollution dark:bg-dark-grey sm-2:col-span-2 col-span-full flex h-[12rem] flex-col gap-8 rounded-lg
+      className='air-pollution dark:bg-dark-grey sm-2:col-span-2 col-span-full flex h-[12rem] flex-col gap-4 rounded-lg
        border px-4 pt-6 shadow-sm dark:shadow-none md:col-span-2 xl:col-span-2'
     >
       <h2 className='flex items-center gap-2 font-medium'>
         {thermo}Air Pollusion
       </h2>
-      <Progress value={airQualityIndex} max={100} className='progress' />
+      <p className=' text-gray-300'>
+        {moment().format('DD/MM/YYYY')}
+      </p>
+      <Progress value={airQualityIndex} max={300} className='progress' />
       <p className='text-sm'>Air quality is {filteredIndex?.description}. </p>
     </div>
   )

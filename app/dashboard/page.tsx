@@ -4,7 +4,7 @@ import defaultPlaces from '../utils/defaultPlaces'
 import { useGlobalContextUpdate } from '@/app/context/GlobalContext'
 import AirPollution from '../Components/dashboard/AirPollution/AirPollution'
 import DailyForecast from '../Components/dashboard/DailyForecast/DailyForecast'
-import FiveDayForecast from '../Components/dashboard/FiveDayForecast/FiveDayForecast'
+import ComponentsConcentration from '../Components/dashboard/ComponentsConcentration/ComponentsConcentration'
 import FeelsLike from '../Components/dashboard/FeelsLike/FeelsLike'
 import Humidity from '../Components/dashboard/Humidity/Humidity'
 import Population from '../Components/dashboard/Population/Population'
@@ -15,11 +15,12 @@ import UvIndex from '../Components/dashboard/UvIndex/UvIndex'
 import Temperature from '../Components/dashboard/Temperature/Temperature'
 import Sunset from '../Components/dashboard/Sunset/Sunset'
 import dynamic from 'next/dynamic'
+import { FC } from 'react'
 const Mapbox = dynamic(() => import('../Components/dashboard/Mapbox/Mapbox'), {
   ssr: false,
 })
 
-const Home = () => {
+const Home: FC = () => {
   const { getDataFromCurrentLocation } = useGlobalContextUpdate()
 
   return (
@@ -27,7 +28,7 @@ const Home = () => {
       <Navbar />
       <div className='flex flex-col gap-4 pb-4 md:flex-row'>
         <div className='flex w-full min-w-[18rem] flex-col gap-4 md:w-[35rem]'>
-          <FiveDayForecast />
+          <ComponentsConcentration />
           <Temperature />
         </div>
         <div className='flex w-full flex-col'>
@@ -56,7 +57,7 @@ const Home = () => {
                       key={index}
                       className='dark:bg-dark-grey cursor-pointer rounded-lg border shadow-sm dark:shadow-none'
                       onClick={() =>
-                        getDataFromCurrentLocation(state.lat, state.lon)
+                        getDataFromCurrentLocation(state.geo[0], state.geo[1])
                       }
                     >
                       <p className='px-6 py-4'>{state.name}</p>
@@ -70,7 +71,9 @@ const Home = () => {
       </div>
 
       <footer className='flex justify-center py-4 pb-8'>
-        <p className='footer-text flex items-center gap-1 text-sm'>Made by</p>
+        <p className='footer-text flex items-center gap-1 text-sm'>
+          Made by Rances Lacruz
+        </p>
       </footer>
     </main>
   )

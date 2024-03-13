@@ -3,9 +3,9 @@ import { useGlobalContext } from '@/app/context/GlobalContext'
 import { wind } from '@/app/utils/icons'
 import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'next/image'
-import React from 'react'
+import React, { FC } from 'react'
 
-function Wind() {
+const Wind: FC = () => {
   const { forecast } = useGlobalContext()
 
   const windSpeed = forecast?.wind?.speed

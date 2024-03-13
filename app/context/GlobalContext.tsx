@@ -8,9 +8,9 @@ import React, {
   ReactNode,
 } from 'react'
 import defaultPlaces from '../utils/defaultPlaces'
-
 import { debounce, set } from 'lodash'
 import { getDistanceFromLatLonInKm } from '../utils/misc'
+import moment from 'moment'
 
 export const GlobalContext = createContext({} as any)
 
@@ -28,7 +28,8 @@ export const GlobalContextProvider = ({
   const [airQuality, setAirQuality] = useState({})
   const [fiveDayForecast, setFiveDayForecast] = useState({})
   const [uvIndex, seUvIndex] = useState({})
-  const [activeCoords, setActiveCoords] = useState([0, 0])
+  const [activeCoords, setActiveCoords] = useState<[number, number]>([0, 0])
+  const [airQualityForecast, setAirQualityForecast] = useState({})
 
   const fetchForecast = async (lat: number, lon: number) => {
     try {
@@ -47,6 +48,30 @@ export const GlobalContextProvider = ({
     try {
       const res = await axios.get(`api/pollution?lat=${lat}&lon=${lon}`)
       setAirQuality(res.data)
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error fetching air quality data: ', error.message)
+      }
+    }
+  }
+  // Air Quality history
+  const fetchAirQualityHistory = async (lat: number, lon: number) => {
+    const currentDate = moment()
+    const start = Math.floor(
+      moment(currentDate).subtract(1, 'day').utc().valueOf() / 1000
+    )
+    const end = Math.floor(
+      moment(currentDate).add(1, 'day').utc().valueOf() / 1000
+    )
+
+    try {
+      const res = await axios.get(
+        `api/pollution-history?lat=${lat}&lon=${lon}&start=${start}&end=${end}`
+      )
+      const lastDayIndex = res.data.list.length - 1
+      setAirQualityForecast({
+        data: [res.data.list[0], res.data.list[lastDayIndex]],
+      })
     } catch (error) {
       if (error instanceof Error) {
         console.error('Error fetching air quality data: ', error.message)
@@ -159,12 +184,14 @@ export const GlobalContextProvider = ({
     fetchAirQuality(lat, lon)
     fetchFiveDayForecast(lat, lon)
     fetchUvIndex(lat, lon)
+    fetchAirQualityHistory(lat, lon)
     setActiveCoords([lat, lon])
   }
 
   return (
     <GlobalContext.Provider
       value={{
+        airQualityForecast,
         activeCoords,
         forecast,
         airQuality,

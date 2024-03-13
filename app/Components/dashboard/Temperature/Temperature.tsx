@@ -104,9 +104,9 @@ function Temperature() {
           <p className='pt-2 text-lg font-medium capitalize'>{description}</p>
         </div>
         <p className='flex items-center gap-2'>
-          <span>Low: {minTemp}°</span>
-          <span>High: {maxTemp}°</span>
-          <span>Current: {temp}°</span>
+          <span>Low: {minTemp}°C</span>
+          <span>High: {maxTemp}°C</span>
+          <span>Current: {temp}°C</span>
         </p>
       </div>
     </div>

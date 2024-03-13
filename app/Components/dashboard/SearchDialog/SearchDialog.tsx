@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { cn } from '@/lib/utils'
 import React from 'react'
 
-function SearchDialog() {
+const SearchDialog = () => {
   const { geoCodedList, inputValue, handleInput } = useGlobalContext()
   const { getDataFromCurrentLocation } = useGlobalContextUpdate()
 
